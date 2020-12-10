@@ -11,7 +11,7 @@ rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
 rm -f /lib/systemd/system/basic.target.wants/*;\
 rm -f /lib/systemd/system/anaconda.target.wants/*;
 
-RUN yum install -y epel-release && yum update -y && yum install -y wget gcc openssl-devel bzip2-devel libffi-devel make
+RUN yum install -y epel-release && yum update -y && yum install -y wget gcc openssl-devel bzip2-devel libffi-devel make && yum clean all -y
 
 WORKDIR /tmp
 RUN curl -O https://www.python.org/ftp/python/3.8.2/Python-3.8.2.tgz && curl -O https://bootstrap.pypa.io/get-pip.py
@@ -28,7 +28,6 @@ RUN rm -fr ./Python-3.8.2
 
 RUN wget https://raw.githubusercontent.com/gdraheim/docker-systemctl-replacement/master/files/docker/systemctl.py -O /usr/local/bin/systemctl
 RUN chmod 755 /usr/local/bin/systemctl
-RUN yum remove -y epel-release wget make
-RUN yum clean all
+RUN yum remove -y epel-release wget make && yum clean all -y
 
 CMD ["/usr/local/bin/systemctl"]
